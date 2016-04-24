@@ -52,6 +52,13 @@ int main()
 	}
 	ofstream out;
 	out.open("hashed_socials.txt");
+	string output;
+	for (int i=0; i < 65000; i++)
+	{
+		out << SShash[i];
+		if (i != 64999)
+			out << ',';
+	}
 	system("pause");
 	return 0;
 }
@@ -78,7 +85,8 @@ bool quadratic_probing_without_repacement(int key, int*hash_table, int M, int i)
 		}
 		else
 		{
-			(address++)%M;	
+			address++;
+			address=address%M;
 		}
 	}
 	if (j >= 65000)//all addresses were checked
