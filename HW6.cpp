@@ -1,6 +1,10 @@
 // HW6.cpp : Defines the entry point for the console application.
 //
-
+/*
+WARNING:
+	Code breaks on very last line.
+	Continuing will allow the program to close successfully
+*/
 #include "stdafx.h"
 #include <fstream>
 #include <iostream>
@@ -9,11 +13,11 @@
 using namespace std;
 
 int extraction_method(int key);
-bool quadratic_probing_without_repacement(int key,int*hash_table,int M, int i);
+bool quadratic_probing_without_repacement(int key, int*hash_table, int M, int i);
 
 int main()
 {
-	int input=0;
+	int input = 0;
 	while (input < 1 || input>450000000)
 	{
 		cout << "enter a number between 1 and 450 million" << endl;
@@ -36,7 +40,7 @@ int main()
 	int j = 0;
 	while (in.good())//stores SS nums in array
 	{
-		in.getline(num,10,',');
+		in.getline(num, 10, ',');
 
 		SSnum[j] = atoi(num);
 		j++;
@@ -53,7 +57,7 @@ int main()
 	ofstream out;
 	out.open("hashed_socials.txt");
 	string output;
-	for (int i=0; i < 65000; i++)
+	for (int i = 0; i < 65000; i++)
 	{
 		out << SShash[i];
 		if (i != 64999)
@@ -74,9 +78,9 @@ int extraction_method(int key)
 
 bool quadratic_probing_without_repacement(int key, int*hash_table, int M, int i)//MAY NEED TO CHANGE
 {
-	int address = (extraction_method(key) + i*i)%M;
+	int address = (extraction_method(key)%M + (i%M)*(i%M)) % M;//i will get to large to fit in an int
 	int j;
-	for (j = 0; j < 65000; j++ )
+	for (j = 0; j < 65000; j++)
 	{
 		if (hash_table[address] == 0)
 		{
@@ -85,11 +89,10 @@ bool quadratic_probing_without_repacement(int key, int*hash_table, int M, int i)
 		}
 		else
 		{
-			address++;
-			address=address%M;
+			i++;
 		}
 	}
 	if (j >= 65000)//all addresses were checked
 		return false;
-	
+
 }
